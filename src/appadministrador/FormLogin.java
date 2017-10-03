@@ -1,4 +1,3 @@
-
 package appadministrador;
 
 import Conexion.conexion;
@@ -12,23 +11,24 @@ import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Ines Muñoz
- * 
+ *
  */
 public class FormLogin extends javax.swing.JFrame {
 
-       
     Connection conn;
     Statement sent;
+
     public FormLogin() {
         initComponents();
-        
-         this.setLocationRelativeTo(null);
+
+        this.setLocationRelativeTo(null);
     }
 
-     void Limpiar(){
+    void Limpiar() {
         this.tfUsuario.setText("");
         this.tfPassword.setText("");
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -46,117 +46,73 @@ public class FormLogin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MUNICIPALIDAD DE VISTA HERMOSA");
-        setPreferredSize(new java.awt.Dimension(600, 500));
+        setPreferredSize(new java.awt.Dimension(600, 550));
         setSize(new java.awt.Dimension(700, 700));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Ilustre Municipalidad de Vista Hermosa");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 170, -1, -1));
 
         tfUsuario.setToolTipText("");
+        getContentPane().add(tfUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 240, 200, -1));
+        tfUsuario.getAccessibleContext().setAccessibleName("");
 
         btIngresar.setBackground(new java.awt.Color(66, 139, 202));
+        btIngresar.setForeground(new java.awt.Color(255, 255, 255));
         btIngresar.setText("Ingresar");
         btIngresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btIngresarActionPerformed(evt);
             }
         });
+        getContentPane().add(btIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 360, 200, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("Usuario");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 210, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("Contraseña");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 280, -1, -1));
 
-        jLabel5.setIcon(new javax.swing.ImageIcon("C:\\Users\\perritosAIBO\\Downloads\\logo .png")); // NOI18N
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(195, 195, 195)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(tfUsuario)
-                        .addComponent(btIngresar, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                        .addComponent(tfPassword)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(130, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(117, 117, 117))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(215, 215, 215))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btIngresar)
-                .addContainerGap(141, Short.MAX_VALUE))
-        );
-
-        tfUsuario.getAccessibleContext().setAccessibleName("");
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/logo .png"))); // NOI18N
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, 175, 153));
+        getContentPane().add(tfPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 310, 200, 30));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btIngresarActionPerformed
-        
-             
-        
-        try{
-            conn = conexion.getConexion();    
-            String sql = "select id_rol from funcionario where rut='"+this.tfUsuario.getText()+"' AND password ='"+this.tfPassword.getText()+"'";
-            
-            sent = conn.createStatement();    
+
+        try {
+            conn = conexion.getConexion();
+            String sql = "select id_rol from funcionario where rut='" + this.tfUsuario.getText() + "' AND password ='" + this.tfPassword.getText() + "'";
+
+            sent = conn.createStatement();
             ResultSet rs = sent.executeQuery(sql);
-            
+
 //rs.getString("id_rol")!=null
-            if(rs.next())
-            {
+            if (rs.next()) {
                 String rol = rs.getString("id_rol");
-                if(rol.equals("13"))
-                {
+                if (rol.equals("1")) {
                     FormAdministrador a = new FormAdministrador();
-                       a.setVisible(true);
+                    a.setVisible(true);
                     this.dispose();
-                }else
-                {
-                    JOptionPane.showMessageDialog(null,"Usted no es Administrador!\n Su acceso es por Web");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Usted no es Administrador!\n Su acceso es por Web");
                     Limpiar();
                 }
-            }
-            else{
-                JOptionPane.showMessageDialog(null,"No existe el usuario");
+            } else {
+                JOptionPane.showMessageDialog(null, "No existe el usuario");
                 Limpiar();
             }
-          
-                     
-       ;
-         }catch (Exception e){
+            ;
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
-        
+
+
     }//GEN-LAST:event_btIngresarActionPerformed
 
     /**
