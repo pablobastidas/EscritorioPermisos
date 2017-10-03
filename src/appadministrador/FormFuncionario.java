@@ -32,7 +32,6 @@ public class FormFuncionario extends javax.swing.JFrame {
         Deshabilitar();
         DeshabilitarError();
 
-        
         this.cbRolF.removeAllItems();
         ArrayList<String> lista = new ArrayList<String>();
 
@@ -45,7 +44,6 @@ public class FormFuncionario extends javax.swing.JFrame {
         conn = conexion.getConexion();
         llenar();
     }
-
 
     public ArrayList<String> cargarComboRolId() {
         ArrayList<String> lista = new ArrayList<String>();
@@ -64,8 +62,8 @@ public class FormFuncionario extends javax.swing.JFrame {
         }
         return lista;
     }
-    
-    void DeshabilitarError(){
+
+    void DeshabilitarError() {
         this.lbl1.setVisible(false);
         this.lbl2.setVisible(false);
         this.lbl3.setVisible(false);
@@ -75,11 +73,11 @@ public class FormFuncionario extends javax.swing.JFrame {
         this.lbl7.setVisible(false);
         this.lbl8.setVisible(false);
     }
-    
-    private void ValidarCampos(int campo){
+
+    private void ValidarCampos(int campo) {
         String mensaje = "Error: Debe ingresar campo ";
-        
-        switch(campo){
+
+        switch (campo) {
             case 1:
                 mensaje += "RUT";
                 this.lbl1.setVisible(true);
@@ -115,6 +113,16 @@ public class FormFuncionario extends javax.swing.JFrame {
         }
     }
 
+    private boolean ComprobarCampos() {
+        if (!this.tfRutF.getText().equals("") && !this.tfNombreF1.getText().equals("") && !this.tfApaternoF.getText().equals("")
+                && Integer.parseInt(this.tfPassword.toString()) > 0 && !this.tfEmailF.getText().equals("")
+                && Integer.parseInt(this.tfTelefonoF.toString()) > 0 && !this.tfDireccionF.getText().equals("")) {
+            DeshabilitarError();
+            return true;
+        }
+        return false;
+    }
+
     void Deshabilitar() {
         this.tfAmaternoF.setEditable(false);
         this.tfApaternoF.setEditable(false);
@@ -123,6 +131,7 @@ public class FormFuncionario extends javax.swing.JFrame {
         this.tfPassword.setEditable(false);
         this.tfRutF.setEditable(false);
         this.tfTelefonoF.setEditable(false);
+        this.tfDireccionF.setEditable(false);
     }
 
     void Limpiar() {
@@ -160,23 +169,23 @@ public class FormFuncionario extends javax.swing.JFrame {
             String[] fila = new String[14];
 
             while (rs.next()) {
-                if(rs.getString("estado").equals("1")){
-                fila[0] = rs.getString("rut");
-                fila[1] = rs.getString("rut_evaluador");
-                fila[2] = rs.getString("nombre");
-                fila[3] = rs.getString("apellido_paterno");
-                fila[4] = rs.getString("apellido_materno");
-                fila[5] = rs.getString("direccion");
-                fila[6] = rs.getString("telefono");
-                fila[7] = rs.getString("password");
-                fila[8] = rs.getString("email");
-                fila[9] = rs.getString("fecha_creacion");
-                fila[10] = rs.getString("fecha_modificacion");
-                fila[11] = rs.getString("estado");
-                fila[12] = rs.getString("id_rol");
-                fila[13] = rs.getString("id_unidad");
+                if (rs.getString("estado").equals("1")) {
+                    fila[0] = rs.getString("rut");
+                    fila[1] = rs.getString("rut_evaluador");
+                    fila[2] = rs.getString("nombre");
+                    fila[3] = rs.getString("apellido_paterno");
+                    fila[4] = rs.getString("apellido_materno");
+                    fila[5] = rs.getString("direccion");
+                    fila[6] = rs.getString("telefono");
+                    fila[7] = rs.getString("password");
+                    fila[8] = rs.getString("email");
+                    fila[9] = rs.getString("fecha_creacion");
+                    fila[10] = rs.getString("fecha_modificacion");
+                    fila[11] = rs.getString("estado");
+                    fila[12] = rs.getString("id_rol");
+                    fila[13] = rs.getString("id_unidad");
 
-                model.addRow(fila);
+                    model.addRow(fila);
                 }
             }
             this.tbFuncionarios.setModel(model);
@@ -514,32 +523,32 @@ public class FormFuncionario extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public String UnidadPorRol(String itemR){
-         
-        String itemU="";
-         try {
+    public String UnidadPorRol(String itemR) {
+
+        String itemU = "";
+        try {
             conn = conexion.getConexion();
-           
-            String sql = "select id_unidad from rol where id_rol="+itemR;
-           
+
+            String sql = "select id_unidad from rol where id_rol=" + itemR;
+
             sent = conn.createStatement();
             ResultSet rs = sent.executeQuery(sql);
-             rs.next();
-             itemU = rs.getString("id_unidad");         
-           
+            rs.next();
+            itemU = rs.getString("id_unidad");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-         return itemU;
+        return itemU;
     }
-    
+
     private void tbFuncionariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbFuncionariosMouseClicked
         if (evt.getButton() == 1) {
             int fila = this.tbFuncionarios.getSelectedRow();
 
             try {
                 Habilitar();
-                String sql = "select * from funcionario where rut = '" + this.tbFuncionarios.getValueAt(fila, 0)+"'";
+                String sql = "select * from funcionario where rut = '" + this.tbFuncionarios.getValueAt(fila, 0) + "'";
                 sent = conn.createStatement();
                 ResultSet rs = sent.executeQuery(sql);
 
@@ -566,26 +575,26 @@ public class FormFuncionario extends javax.swing.JFrame {
 
     private void btEliminarFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEliminarFActionPerformed
         try {
+            DeshabilitarError();
             int fila = this.tbFuncionarios.getSelectedRow();
-            String sql = "Update funcionario  SET estado = '0' where rut = '"+this.tbFuncionarios.getValueAt(fila,0)+"'";
+            String sql = "Update funcionario  SET estado = '0' where rut = '" + this.tbFuncionarios.getValueAt(fila, 0) + "'";
 
             sent = conn.createStatement();
             int n = sent.executeUpdate(sql);
 
-            if(n>0)
-            {
+            if (n > 0) {
                 llenar();
                 JOptionPane.showMessageDialog(null, "Funcionario Eliminado exitosamente");
             }
 
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Error "+e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error " + e.getMessage());
         }
     }//GEN-LAST:event_btEliminarFActionPerformed
 
     private void btModificarFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btModificarFActionPerformed
         try {
-
+            DeshabilitarError();
             String itemR = (String) this.cbRolF.getSelectedItem();
             String itemU = this.UnidadPorRol(itemR);
             java.util.Date date = new java.util.Date();
@@ -593,11 +602,11 @@ public class FormFuncionario extends javax.swing.JFrame {
             String fechamodificacion = dateFormat.format(date);
 
             String sql = "Update funcionario  SET nombre = ? ,apellido_paterno= ? ,apellido_materno= ? ,"
-            + "  direccion = ? ,telefono= ? ,password= ?, email = ? ,fecha_modificacion= ? , id_rol= ?,"
-            + " id_unidad=?  where rut = ?";
+                    + "  direccion = ? ,telefono= ? ,password= ?, email = ? ,fecha_modificacion= ? , id_rol= ?,"
+                    + " id_unidad=?  where rut = ?";
 
             int fila = this.tbFuncionarios.getSelectedRow();
-            String dao = (String) this.tbFuncionarios.getValueAt(fila,0);
+            String dao = (String) this.tbFuncionarios.getValueAt(fila, 0);
             PreparedStatement ps = conn.prepareStatement(sql);
 
             ps.setString(1, this.tfNombreF1.getText());
@@ -612,58 +621,60 @@ public class FormFuncionario extends javax.swing.JFrame {
             ps.setString(10, itemU);
             ps.setString(11, dao);
             int n = ps.executeUpdate();
-            if(n>0)
-            {
+            if (n > 0) {
                 Limpiar();
                 llenar();
                 JOptionPane.showMessageDialog(null, "Funcionario Modificado");
             }
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Error "+e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error " + e.getMessage());
         }
     }//GEN-LAST:event_btModificarFActionPerformed
 
     private void btGuardarFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGuardarFActionPerformed
 
-        
-        if(!this.tfRutF.getText().equals("") && !this.tfNombreF1.getText().equals("")){
-            
+        if (ComprobarCampos()) {
+            String itemR = (String) this.cbRolF.getSelectedItem();
+            String itemU = this.UnidadPorRol(itemR);
+            java.util.Date date = new java.util.Date();
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String fechacreacion = dateFormat.format(date);
+            String fechamodificacion = fechacreacion;
+            String estado = "1";
+            try {
+                String sql = "insert into funcionario(rut,rut_evaluador,nombre,apellido_paterno,apellido_materno,direccion,telefono,password,email,fecha_creacion,\n"
+                        + "                fecha_modificacion,estado,id_rol,id_unidad) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                PreparedStatement ps = conn.prepareCall(sql);
+                ps.setString(1, this.tfRutF.getText());
+                ps.setString(2, "");//this.tfRutJefeU.getText());
+                ps.setString(3, this.tfNombreF1.getText());
+                ps.setString(4, this.tfApaternoF.getText());
+                ps.setString(5, this.tfAmaternoF.getText());
+                ps.setString(6, this.tfDireccionF.getText());
+                ps.setString(7, this.tfTelefonoF.getText());
+                ps.setString(8, this.tfPassword.getText());
+                ps.setString(9, this.tfEmailF.getText());
+                ps.setString(10, fechacreacion);
+                ps.setString(11, fechamodificacion);
+                ps.setString(12, estado);
+                ps.setString(13, itemR);
+                ps.setString(14, itemU);
+                int n = ps.executeUpdate();
+                if (n > 0) {
+                    JOptionPane.showMessageDialog(null, "Funcionario Ingresado con éxito");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error al insertar " + e.getMessage());
+            }
+            llenar();
+            Limpiar();
+        }else{
+            for(int i=1; i<=8; i++){
+                ValidarCampos(i);
+            }
         }
-        
-        String itemR = (String) this.cbRolF.getSelectedItem();
-        String itemU = this.UnidadPorRol(itemR);
-        java.util.Date date = new java.util.Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String fechacreacion = dateFormat.format(date);
-        String fechamodificacion = fechacreacion;
-        String estado = "1";
-        try {
-            String sql = "insert into funcionario(rut,rut_evaluador,nombre,apellido_paterno,apellido_materno,direccion,telefono,password,email,fecha_creacion,\n"
-            + "                fecha_modificacion,estado,id_rol,id_unidad) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-            PreparedStatement ps = conn.prepareCall(sql);
-            ps.setString(1, this.tfRutF.getText());
-            ps.setString(2, "");//this.tfRutJefeU.getText());
-        ps.setString(3, this.tfNombreF1.getText());
-        ps.setString(4, this.tfApaternoF.getText());
-        ps.setString(5, this.tfAmaternoF.getText());
-        ps.setString(6, this.tfDireccionF.getText());
-        ps.setString(7, this.tfTelefonoF.getText());
-        ps.setString(8, this.tfPassword.getText());
-        ps.setString(9, this.tfEmailF.getText());
-        ps.setString(10, fechacreacion);
-        ps.setString(11, fechamodificacion);
-        ps.setString(12, estado);
-        ps.setString(13, itemR);
-        ps.setString(14, itemU);
-        int n = ps.executeUpdate();
-        if (n > 0) {
-            JOptionPane.showMessageDialog(null, "Funcionario Ingresado con éxito");
-        }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al insertar " + e.getMessage());
-        }
-        llenar();
-        Limpiar();
+
+
     }//GEN-LAST:event_btGuardarFActionPerformed
 
     private void btNuevoFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNuevoFActionPerformed
