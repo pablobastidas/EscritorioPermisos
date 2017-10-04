@@ -74,13 +74,14 @@ public class FormFuncionario extends javax.swing.JFrame {
         this.lbl8.setVisible(false);
     }
 
-    private void ValidarCampos(int campo) {
+    public void ValidarCampos(int campo) {
         String mensaje = "Error: Debe ingresar campo ";
 
         switch (campo) {
             case 1:
                 mensaje += "RUT";
                 this.lbl1.setVisible(true);
+                this.lbl1.setText(mensaje);
                 break;
             case 2:
                 mensaje += "NOMBRE";
@@ -110,6 +111,8 @@ public class FormFuncionario extends javax.swing.JFrame {
                 mensaje += "TELÉFONO";
                 this.lbl8.setVisible(true);
                 break;
+            default:
+                break;
         }
     }
 
@@ -117,7 +120,7 @@ public class FormFuncionario extends javax.swing.JFrame {
         if (!this.tfRutF.getText().equals("") && !this.tfNombreF1.getText().equals("") && !this.tfApaternoF.getText().equals("")
                 && Integer.parseInt(this.tfPassword.toString()) > 0 && !this.tfEmailF.getText().equals("")
                 && Integer.parseInt(this.tfTelefonoF.toString()) > 0 && !this.tfDireccionF.getText().equals("")) {
-            DeshabilitarError();
+            //DeshabilitarError();
             return true;
         }
         return false;
@@ -593,42 +596,51 @@ public class FormFuncionario extends javax.swing.JFrame {
     }//GEN-LAST:event_btEliminarFActionPerformed
 
     private void btModificarFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btModificarFActionPerformed
-        try {
-            DeshabilitarError();
-            String itemR = (String) this.cbRolF.getSelectedItem();
-            String itemU = this.UnidadPorRol(itemR);
-            java.util.Date date = new java.util.Date();
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            String fechamodificacion = dateFormat.format(date);
 
-            String sql = "Update funcionario  SET nombre = ? ,apellido_paterno= ? ,apellido_materno= ? ,"
-                    + "  direccion = ? ,telefono= ? ,password= ?, email = ? ,fecha_modificacion= ? , id_rol= ?,"
-                    + " id_unidad=?  where rut = ?";
+        if (ComprobarCampos()) {
+            try {
+                DeshabilitarError();
+                String itemR = (String) this.cbRolF.getSelectedItem();
+                String itemU = this.UnidadPorRol(itemR);
+                java.util.Date date = new java.util.Date();
+                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                String fechamodificacion = dateFormat.format(date);
 
-            int fila = this.tbFuncionarios.getSelectedRow();
-            String dao = (String) this.tbFuncionarios.getValueAt(fila, 0);
-            PreparedStatement ps = conn.prepareStatement(sql);
+                String sql = "Update funcionario  SET nombre = ? ,apellido_paterno= ? ,apellido_materno= ? ,"
+                        + "  direccion = ? ,telefono= ? ,password= ?, email = ? ,fecha_modificacion= ? , id_rol= ?,"
+                        + " id_unidad=?  where rut = ?";
 
-            ps.setString(1, this.tfNombreF1.getText());
-            ps.setString(2, this.tfApaternoF.getText());
-            ps.setString(3, this.tfAmaternoF.getText());
-            ps.setString(4, this.tfDireccionF.getText());
-            ps.setString(5, this.tfTelefonoF.getText());
-            ps.setString(6, this.tfPassword.getText());
-            ps.setString(7, this.tfEmailF.getText());
-            ps.setString(8, fechamodificacion);
-            ps.setString(9, itemR);
-            ps.setString(10, itemU);
-            ps.setString(11, dao);
-            int n = ps.executeUpdate();
-            if (n > 0) {
-                Limpiar();
-                llenar();
-                JOptionPane.showMessageDialog(null, "Funcionario Modificado");
+                int fila = this.tbFuncionarios.getSelectedRow();
+                String dao = (String) this.tbFuncionarios.getValueAt(fila, 0);
+                PreparedStatement ps = conn.prepareStatement(sql);
+
+                ps.setString(1, this.tfNombreF1.getText());
+                ps.setString(2, this.tfApaternoF.getText());
+                ps.setString(3, this.tfAmaternoF.getText());
+                ps.setString(4, this.tfDireccionF.getText());
+                ps.setString(5, this.tfTelefonoF.getText());
+                ps.setString(6, this.tfPassword.getText());
+                ps.setString(7, this.tfEmailF.getText());
+                ps.setString(8, fechamodificacion);
+                ps.setString(9, itemR);
+                ps.setString(10, itemU);
+                ps.setString(11, dao);
+                int n = ps.executeUpdate();
+                if (n > 0) {
+                    Limpiar();
+                    llenar();
+                    JOptionPane.showMessageDialog(null, "Funcionario Modificado");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error " + e.getMessage());
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error " + e.getMessage());
+        } else {
+            for (int i = 1; i <= 8; i++) {
+                ValidarCampos(i);
+            }
         }
+
+
     }//GEN-LAST:event_btModificarFActionPerformed
 
     private void btGuardarFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGuardarFActionPerformed
@@ -668,8 +680,8 @@ public class FormFuncionario extends javax.swing.JFrame {
             }
             llenar();
             Limpiar();
-        }else{
-            for(int i=1; i<=8; i++){
+        } else {
+            for (int i = 1; i <= 8; i++) {
                 ValidarCampos(i);
             }
         }
